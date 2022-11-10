@@ -1,6 +1,8 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import "../styles/globals.css";
+import type { AppProps } from "next/app";
+import axios from "axios";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL + "/api";
+  return <Component {...pageProps} />;
 }
