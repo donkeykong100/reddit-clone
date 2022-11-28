@@ -1,3 +1,4 @@
+import { useAuthState } from "../context/auth";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
