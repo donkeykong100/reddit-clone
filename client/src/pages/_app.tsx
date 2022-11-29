@@ -5,7 +5,7 @@ import { AuthProvider } from "../context/auth";
 import { useRouter } from "next/router";
 import NavBar from "../components/NavBar";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function MyApp({ Component, pageProps }: AppProps) {
   axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_BASE_URL + "/api";
   axios.defaults.withCredentials = true;
 
