@@ -29,6 +29,9 @@ export default class Post extends BaseEntity {
   @Column()
   slug: string;
 
+  @Column({ nullable: true, type: "text" })
+  body: string;
+
   @Column()
   subName: string;
 
