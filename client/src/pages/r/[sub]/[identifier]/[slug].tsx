@@ -16,10 +16,12 @@ const PostPage = () => {
 
   const [newComment, setNewComment] = useState("");
 
-  const { error, data: post } = useSWR<Post>(
-    identifier && slug ? `/posts/${identifier}/${slug}` : null
-  );
-  const { data: comments, mutate } = useSWR<Comment[]>(
+  const {
+    error,
+    data: post,
+    mutate: postMutate,
+  } = useSWR<Post>(identifier && slug ? `/posts/${identifier}/${slug}` : null);
+  const { data: comments, mutate: commentMutate } = useSWR<Comment[]>(
     identifier && slug ? `/posts/${identifier}/${slug}/comments` : null
   );
 
@@ -30,8 +32,32 @@ const PostPage = () => {
       await axios.post(`/posts/${post?.identifier}/${post?.slug}/comments`, {
         body: newComment,
       });
-      mutate();
+      commentMutate();
       setNewComment("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const vote = async (value: number, comment?: Comment) => {
+    if (!authenticated) router.push("/login");
+
+    // 이미 클릭한 버튼을 눌렀을 시 0으로 reset
+    if (
+      (!comment && value === post?.userVote) ||
+      (comment && value === comment.userVote)
+    ) {
+      value = 0;
+    }
+    try {
+      await axios.post("/votes", {
+        identifier,
+        slug,
+        commentIdentifier: comment?.identifier,
+        value,
+      });
+      postMutate();
+      commentMutate();
     } catch (error) {
       console.log(error);
     }
@@ -48,8 +74,8 @@ const PostPage = () => {
                 <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
                   {/* 좋아요 */}
                   <div
-                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
-                    // onClick={() => vote(1)}
+                    className="w-6 flex justify-center mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                    onClick={() => vote(1)}
                   >
                     <i
                       className={classNames("fas fa-arrow-up", {
@@ -60,8 +86,8 @@ const PostPage = () => {
                   <p className="text-xs font-bold">{post.voteScore}</p>
                   {/* 싫어요 */}
                   <div
-                    className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
-                    // onClick={() => vote(-1)}
+                    className="w-6 flex justify-center mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                    onClick={() => vote(-1)}
                   >
                     <i
                       className={classNames("fas fa-arrow-down", {
@@ -157,8 +183,8 @@ const PostPage = () => {
                   <div className="flex-shrink-0 w-10 py-2 text-center rounded-l">
                     {/* 좋아요 */}
                     <div
-                      className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
-                      // onClick={() => vote(1, comment)}
+                      className="w-6 flex justify-center mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-red-500"
+                      onClick={() => vote(1, comment)}
                     >
                       <i
                         className={classNames("fas fa-arrow-up", {
@@ -169,8 +195,8 @@ const PostPage = () => {
                     <p className="text-xs font-bold">{comment.voteScore}</p>
                     {/* 싫어요 */}
                     <div
-                      className="w-6 mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
-                      // onClick={() => vote(-1, comment)}
+                      className="w-6 flex justify-center mx-auto text-gray-400 rounded cursor-pointer hover:bg-gray-300 hover:text-blue-500"
+                      onClick={() => vote(-1, comment)}
                     >
                       <i
                         className={classNames("fas fa-arrow-down", {
