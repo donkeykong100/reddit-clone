@@ -3,8 +3,10 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
+import PostCard from "../../components/PostCard";
 import SideBar from "../../components/SideBar";
 import { useAuthState } from "../../context/auth";
+import { Post } from "../../types";
 
 const SubPage = () => {
   const [ownSub, setOwnSub] = useState(false);
@@ -17,7 +19,11 @@ const SubPage = () => {
 
   // { data, error, isValidating, mutate } 객체 구조분해 할당
   // error와 data만 잡아주기(data는 sub이라는 별칭으로 잡음)
-  const { error, data: sub } = useSWR(subName ? `/subs/${subName}` : null);
+  const {
+    error,
+    data: sub,
+    mutate,
+  } = useSWR(subName ? `/subs/${subName}` : null);
 
   useEffect(() => {
     if (!sub || !user) return;
@@ -52,6 +58,19 @@ const SubPage = () => {
       fileInput.click();
     }
   };
+
+  let renderPosts;
+  if (!sub) {
+    renderPosts = <p className="text-lg text-center">Loading...</p>;
+  } else if (sub.posts.length === 0) {
+    renderPosts = (
+      <p className="text-lg text-center">아직 작성된 게시물이 없습니다.</p>
+    );
+  } else {
+    renderPosts = sub.posts.map((post: Post) => (
+      <PostCard key={post.identifier} post={post} subMutate={mutate} />
+    ));
+  }
 
   return (
     <>
@@ -119,7 +138,7 @@ const SubPage = () => {
           </div>
           {/* 포스트와 사이드 바 */}
           <div className="flex max-w-5xl px-4 pt-5 mx-auto">
-            <div className="w-full md:mr-3 md:w-8/12"></div>
+            <div className="w-full md:mr-3 md:w-8/12">{renderPosts}</div>
             <SideBar sub={sub} />
           </div>
         </>
