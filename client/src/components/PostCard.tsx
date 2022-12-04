@@ -11,7 +11,8 @@ import { Post } from "../types";
 
 interface PostCardProps {
   post: Post;
-  subMutate: () => void;
+  subMutate?: () => void;
+  mutate?: () => void;
 }
 
 const PostCard = ({
@@ -29,6 +30,7 @@ const PostCard = ({
     sub,
     body,
   },
+  mutate,
   subMutate,
 }: PostCardProps) => {
   const router = useRouter();
@@ -47,7 +49,8 @@ const PostCard = ({
         slug,
         value,
       });
-      subMutate();
+      if (subMutate) subMutate();
+      if (mutate) mutate();
     } catch (error) {
       console.log(error);
     }
