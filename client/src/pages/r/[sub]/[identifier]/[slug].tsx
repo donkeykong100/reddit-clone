@@ -148,7 +148,7 @@ const PostPage = () => {
                       <div className="flex justify-end">
                         <button
                           id="createComment"
-                          className={`px-3 py-1 text-white  rounded ${
+                          className={`px-3 py-1 mt-1 mb-3 text-white  rounded ${
                             newComment.trim() === ""
                               ? "bg-gray-200"
                               : "bg-gray-400 hover:bg-gray-500"

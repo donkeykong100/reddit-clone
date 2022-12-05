@@ -25,7 +25,7 @@ const SubCreate = () => {
 
   return (
     <div className="flex flex-col justify-center pt-16">
-      <div className="w-10/12 mx-auto md:w-96">
+      <div className="w-10/12 mx-auto md:w-96 bg-white rounded-md p-4">
         <h1 className="mb-2 text-lg font-medium">커뮤니티 만들기</h1>
         <hr />
         <form onSubmit={handleSubmit}>
