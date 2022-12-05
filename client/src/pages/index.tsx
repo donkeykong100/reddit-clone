@@ -55,10 +55,8 @@ export default function Home() {
     const observer = new IntersectionObserver(
       // entries는 IntersectionObserverEntry 인스턴스의 배열
       (entries) => {
-        console.log(entries[0]);
         // isIntersecting: 관찰 대상의 교차 상태(Boolean)
         if (entries[0].isIntersecting === true) {
-          console.log("마지막 포스트에 왔습니다.");
           setPage(page + 1);
           observer.unobserve(element);
         }
