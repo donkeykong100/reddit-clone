@@ -1,4 +1,4 @@
-import { slugify } from "./../utils/helpers";
+import { slugify } from "transliteration";
 import { Exclude, Expose } from "class-transformer";
 import {
   BeforeInsert,
