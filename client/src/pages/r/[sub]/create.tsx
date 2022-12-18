@@ -76,7 +76,9 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   try {
     const cookie = req.headers.cookie;
     if (!cookie) throw new Error("쿠키가 없습니다.");
-    await axios.get("/auth/me", { headers: { cookie } });
+    await axios.get(`${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/api/auth/me`, {
+      headers: { cookie },
+    });
     return {
       props: {},
     };
