@@ -13,7 +13,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const origin = process.env.APP_URL;
+const origin = process.env.ORIGIN;
 
 app.use(
   cors({
