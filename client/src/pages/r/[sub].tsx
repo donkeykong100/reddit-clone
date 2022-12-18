@@ -34,7 +34,6 @@ const SubPage = () => {
     if (event.target.files === null) return;
 
     const file = event.target.files[0];
-    console.log(file);
 
     const formData = new FormData();
     formData.append("file", file);

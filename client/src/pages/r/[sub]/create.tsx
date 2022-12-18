@@ -14,8 +14,6 @@ const PostCreate = () => {
     query: { sub: subName },
   } = router;
 
-  console.log(subName);
-
   const submitPost = async (event: FormEvent) => {
     event.preventDefault();
     if (title.trim() === "" || !subName) return;
