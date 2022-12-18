@@ -13,7 +13,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 
 const app = express();
-const origin = "http://localhost:3000";
+const origin = process.env.APP_URL;
 
 app.use(
   cors({
@@ -39,7 +39,7 @@ app.use(express.static("public"));
 let port = 4000;
 
 app.listen(port, async () => {
-  console.log(`server funning at http://localhost:${port}`);
+  console.log(`server running at ${process.env.APP_URL}`);
 
   AppDataSource.initialize()
     .then(async () => {
